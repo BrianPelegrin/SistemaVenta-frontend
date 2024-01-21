@@ -4,5 +4,9 @@ interface IModule {
   path: string;
   childs?: IModule[];
 }
+interface IApiResponse<TData> {
+  message: string;
+  data: TData;
+}
 
-export type { IModule };
+export type { IModule, IApiResponse };

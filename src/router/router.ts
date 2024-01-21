@@ -1,21 +1,22 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
-
+import inventoryModules from "@/modules/inventory/routes";
 const routes: RouteRecordRaw[] = [
   {
     path: "",
-    component: () => import("@/layouts/MainLayout.vue"),
+    component: () => import("@/App.vue"),
     children: [
       {
-        path: "/categories",
-        name: "categories-page",
-        component: () => import("@/modules/inventory/views/CategoriesPage.vue"),
+        path: "/inventory",
+        name: "inventory",
+        component: () => import("@/layouts/MainLayout.vue"),
+        children: inventoryModules,
       },
     ],
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.VITE_BASE_URL),
   routes,
 });
 

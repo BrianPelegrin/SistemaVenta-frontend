@@ -47,7 +47,6 @@
 import { ref } from "vue";
 import TheHeader from "@/components/TheHeader.vue";
 import { IModule } from "@/interfaces";
-const printer = (cosa: any) => console.log("Printio: ", cosa);
 
 const openDrawer = ref<boolean>(false);
 const navModules = ref<IModule[]>([
@@ -58,22 +57,22 @@ const navModules = ref<IModule[]>([
     childs: [
       {
         label: "Productos",
-        path: "/products",
+        path: "/inventory/products",
         icon: "mdi mdi-package-variant-closed",
       },
       {
         label: "Proveedores",
-        path: "/providers",
+        path: "/inventory/providers",
         icon: "mdi mdi-truck-cargo-container",
       },
       {
         label: "Categorias",
-        path: "/categories",
+        path: "/inventory/categories",
         icon: "mdi mdi-format-list-bulleted",
       },
       {
         label: "Movimientos",
-        path: "/inventory-movements",
+        path: "/inventory/movements",
         icon: "mdi mdi-store-search-outline",
       },
     ],
