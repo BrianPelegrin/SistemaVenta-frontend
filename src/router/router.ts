@@ -11,7 +11,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/layouts/MainLayout.vue"),
         children: inventoryModules,
       },
+      {
+        path: "",
+        component: () => import("@/layouts/MainLayout.vue"),
+      },
     ],
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
   },
 ];
 

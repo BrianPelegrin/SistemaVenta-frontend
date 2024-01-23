@@ -62,7 +62,7 @@ const navModules = ref<IModule[]>([
       },
       {
         label: "Proveedores",
-        path: "/inventory/providers",
+        path: "/inventory/suppliers",
         icon: "mdi mdi-truck-cargo-container",
       },
       {

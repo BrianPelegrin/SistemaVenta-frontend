@@ -7,13 +7,33 @@ export default [
     component: () => import("@/modules/inventory/views/CategoriesPage.vue"),
   },
   {
-    path: "categories/form",
-    name: "categories-form-add",
-    component: () => import("@/modules/inventory/views/CategoriesFormPage.vue"),
+    path: "suppliers",
+    name: "suppliers-page",
+    component: () => import("@/modules/inventory/views/SuppliersPage.vue"),
   },
   {
-    path: "categories/form/:id",
-    name: "categories-form-edit",
-    component: () => import("@/modules/inventory/views/CategoriesFormPage.vue"),
+    path: "suppliers-form",
+    name: "suppliers-form-add",
+    component: () => import("@/modules/inventory/views/SupplierFormPage.vue"),
+  },
+  {
+    path: "suppliers-form/:id",
+    name: "suppliers-form-edit",
+    component: () => import("@/modules/inventory/views/SupplierFormPage.vue"),
+  },
+  {
+    path: "products",
+    name: "products-page",
+    component: () => import("@/modules/inventory/views/ProductsPage.vue"),
+  },
+  {
+    path: "products-form",
+    name: "products-form-add",
+    component: () => import("@/modules/inventory/views/ProductFormPage.vue"),
+  },
+  {
+    path: "products-form/:id",
+    name: "products-form-edit",
+    component: () => import("@/modules/inventory/views/ProductFormPage.vue"),
   },
 ] as RouteRecordRaw[];

@@ -28,7 +28,7 @@
         <v-btn
           class="bg-primary"
           icon="mdi mdi-pencil"
-          @click="assignCategory(item)"
+          @click="editCategory(item)"
         />
       </template>
       <template v-slot:item.stateId="{ item }">
@@ -76,7 +76,7 @@ const closeModal = () => {
   };
 };
 
-const assignCategory = (category: ICategory) => {
+const editCategory = (category: ICategory) => {
   console.log(category);
 
   isModalOpen.value = true;
