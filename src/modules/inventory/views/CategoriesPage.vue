@@ -1,41 +1,47 @@
 <template>
-  <v-card class="mt-3">
-    <v-toolbar title="Categorias" class="bg-primary">
-      <v-btn
-        :loading="categoryStore.isLoading"
-        @click="async () => await categoryStore.getCategories()"
-        icon="mdi mdi-reload"
-        variant="tonal"
-        class="mx-2"
-      />
-      <v-btn
-        @click="isModalOpen = true"
-        :disabled="categoryStore.isLoading"
-        elevated
-        class="bg-success"
-        append-icon="mdi mdi-plus"
-      >
-        Registrar Categoria
-      </v-btn>
-    </v-toolbar>
-    <v-data-table
-      :loading="categoryStore.isLoading"
-      :headers="headers"
-      :items="categoriesList"
-      :border="true"
-    >
-      <template v-slot:item.id="{ item }">
+  <v-container>
+    <v-card class="mt-3">
+      <v-toolbar title="Categorias" class="bg-primary">
         <v-btn
-          class="bg-primary"
-          icon="mdi mdi-pencil"
-          @click="editCategory(item)"
+          :loading="categoryStore.isLoading"
+          @click="async () => await categoryStore.getCategories()"
+          icon="mdi mdi-reload"
+          variant="tonal"
+          class="mx-2"
         />
-      </template>
-      <template v-slot:item.stateId="{ item }">
-        <v-switch v-model="item.isActive" color="success" hide-details />
-      </template>
-    </v-data-table>
-  </v-card>
+        <v-btn
+          @click="isModalOpen = true"
+          :disabled="categoryStore.isLoading"
+          elevated
+          class="bg-success"
+          append-icon="mdi mdi-plus"
+        >
+          Registrar Categoria
+        </v-btn>
+      </v-toolbar>
+      <v-data-table
+        :loading="categoryStore.isLoading"
+        :headers="headers"
+        :items="categoriesList"
+        :border="true"
+      >
+        <template v-slot:item.id="{ item }">
+          <v-btn
+            class="bg-primary"
+            icon="mdi mdi-pencil"
+            @click="editCategory(item)"
+          />
+        </template>
+        <template v-slot:item.stateId="{ item }">
+          <v-chip
+            :color="item.isActive ? 'success' : 'red'"
+            variant="outlined"
+            :text="item.isActive ? 'Activo' : 'Inactivo'"
+          />
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-container>
   <v-dialog width="1024" v-model="isModalOpen">
     <CategoryForm
       @on-submit="saveCategory"

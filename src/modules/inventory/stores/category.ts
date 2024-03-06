@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { ICategory } from "../interfaces";
+import { ICategory } from "@/modules/inventory/interfaces";
 import sistemApi from "@/api/sistem-api";
 import { IApiResponse } from "@/interfaces";
 
@@ -21,9 +21,7 @@ const useCategoryStore = defineStore("category-store", () => {
         return x;
       });
     } catch (error: any) {}
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 500);
+    isLoading.value = false;
   };
 
   const getCategory = async (id: number | string) => {

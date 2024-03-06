@@ -1,53 +1,59 @@
 <template>
-  <v-card>
-    <v-toolbar title="Proveedores" class="bg-primary">
-      <v-btn
-        @click="async () => await supplierStore.getSuppliers()"
-        :loading="supplierStore.isLoading"
-        class="bg-primary mx-2"
-        icon="mdi mdi-reload"
-        variant="tonal"
-      />
-      <v-btn
-        @click="
-          $router.push({
-            name: 'suppliers-form-add',
-          })
-        "
-        :disabled="supplierStore.isLoading"
-        class="bg-success"
-        append-icon="mdi mdi-plus"
-        text="Registrar Proveedor"
-      />
-    </v-toolbar>
-    <v-data-table
-      :loading="supplierStore.isLoading"
-      :items="suppliersList"
-      :headers="tableHeaders"
-    >
-      <template v-slot:item.stateId="{ item }">
-        <v-switch v-model="item.isActive" color="success" hide-details />
-      </template>
-      <template v-slot:item.id="{ item }">
+  <v-container>
+    <v-card>
+      <v-toolbar title="Proveedores" class="bg-primary">
+        <v-btn
+          @click="async () => await supplierStore.getSuppliers()"
+          :loading="supplierStore.isLoading"
+          class="bg-primary mx-2"
+          icon="mdi mdi-reload"
+          variant="tonal"
+        />
         <v-btn
           @click="
             $router.push({
-              name: 'suppliers-form-edit',
-              params: { id: item.id },
+              name: 'suppliers-form-add',
             })
           "
-          class="bg-primary"
-          icon="mdi mdi-pencil"
+          :disabled="supplierStore.isLoading"
+          class="bg-success"
+          append-icon="mdi mdi-plus"
+          text="Registrar Proveedor"
         />
-      </template>
-    </v-data-table>
-  </v-card>
+      </v-toolbar>
+      <v-data-table
+        :loading="supplierStore.isLoading"
+        :items="suppliersList"
+        :headers="tableHeaders"
+      >
+        <template v-slot:item.stateId="{ item }">
+          <v-chip
+            :color="item.isActive ? 'success' : 'red'"
+            variant="outlined"
+            :text="item.isActive ? 'Activo' : 'Inactivo'"
+          />
+        </template>
+        <template v-slot:item.id="{ item }">
+          <v-btn
+            @click="
+              $router.push({
+                name: 'suppliers-form-edit',
+                params: { id: item.id },
+              })
+            "
+            class="bg-primary"
+            icon="mdi mdi-pencil"
+          />
+        </template>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useSupplierStore } from "@/modules/inventory/stores";
-import { ISupplier } from "../interfaces";
+import { ISupplier } from "@/modules/inventory/interfaces";
 const supplierStore = useSupplierStore();
 const suppliersList = computed<ISupplier[]>(() => supplierStore.suppliers);
 const tableHeaders: any[] = [

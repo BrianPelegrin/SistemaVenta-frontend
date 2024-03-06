@@ -36,9 +36,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-      <v-container>
-        <router-view />
-      </v-container>
+      <router-view />
     </v-main>
   </v-layout>
 </template>

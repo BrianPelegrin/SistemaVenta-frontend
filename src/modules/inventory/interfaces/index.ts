@@ -19,6 +19,8 @@ interface IProduct {
   supplier?: ISupplier;
   state?: IState;
   inventoryMovements?: any[];
+  //front-end utils
+  isActive?: boolean;
 }
 interface ICategory {
   id: number;

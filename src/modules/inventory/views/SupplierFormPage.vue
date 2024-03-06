@@ -1,14 +1,16 @@
 <template>
-  <SupplierForm
-    @on-submit="async () => await saveSupplier()"
-    @on-cancel="$router.push({ name: 'suppliers-page' })"
-    :is-loading="supplierStore.isLoading"
-    :id="currentSupplier.id"
-    v-model:name="currentSupplier.name"
-    v-model:email="currentSupplier.email"
-    v-model:phone-number="currentSupplier.phoneNumber"
-    v-model:state-id="currentSupplier.stateId"
-  />
+  <v-container>
+    <SupplierForm
+      @on-submit="async () => await saveSupplier()"
+      @on-cancel="$router.push({ name: 'suppliers-page' })"
+      :is-loading="supplierStore.isLoading"
+      :id="currentSupplier.id"
+      v-model:name="currentSupplier.name"
+      v-model:email="currentSupplier.email"
+      v-model:phone-number="currentSupplier.phoneNumber"
+      v-model:state-id="currentSupplier.stateId"
+    />
+  </v-container>
 </template>
 
 <script setup lang="ts">
