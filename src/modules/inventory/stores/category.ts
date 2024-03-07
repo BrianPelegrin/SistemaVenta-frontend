@@ -13,7 +13,7 @@ const useCategoryStore = defineStore("category-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<ICategory[]>>(
-        "/categories"
+        "/inventory/categories"
       );
 
       categories.value = data.data.map((x) => {
@@ -28,7 +28,7 @@ const useCategoryStore = defineStore("category-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<ICategory>>(
-        `/categories/${id}`
+        `/inventory/categories/${id}`
       );
 
       category.value = data.data;
@@ -40,7 +40,7 @@ const useCategoryStore = defineStore("category-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.post<IApiResponse<ICategory>>(
-        "/categories",
+        "/inventory/categories",
         categoryToAdd
       );
 
@@ -54,7 +54,7 @@ const useCategoryStore = defineStore("category-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.put<IApiResponse<ICategory>>(
-        "/categories",
+        "/inventory/categories",
         categoryToUpdate
       );
 

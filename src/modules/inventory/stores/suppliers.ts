@@ -13,7 +13,7 @@ const useSupplierStore = defineStore("supplier-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<ISupplier[]>>(
-        "/suppliers"
+        "/inventory/suppliers"
       );
 
       suppliers.value = data.data.map((x) => {
@@ -29,7 +29,7 @@ const useSupplierStore = defineStore("supplier-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<ISupplier>>(
-        `/suppliers/${id}`
+        `/inventory/suppliers/${id}`
       );
 
       supplier.value = data.data;
@@ -41,7 +41,7 @@ const useSupplierStore = defineStore("supplier-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.post<IApiResponse<ISupplier>>(
-        "/suppliers",
+        "/inventory/suppliers",
         supplierToAdd
       );
 
@@ -55,7 +55,7 @@ const useSupplierStore = defineStore("supplier-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.put<IApiResponse<ISupplier>>(
-        "/suppliers",
+        "/inventory/suppliers",
         supplierToUpdate
       );
 

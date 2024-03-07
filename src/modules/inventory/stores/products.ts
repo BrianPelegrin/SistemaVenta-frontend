@@ -13,7 +13,7 @@ const useProductStore = defineStore("product-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<IProduct[]>>(
-        "/products"
+        "/inventory/products"
       );
 
       products.value = data.data;
@@ -26,7 +26,7 @@ const useProductStore = defineStore("product-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.get<IApiResponse<IProduct>>(
-        `/products/${id}`
+        `/inventory/products/${id}`
       );
 
       product.value = data.data;
@@ -38,7 +38,7 @@ const useProductStore = defineStore("product-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.post<IApiResponse<IProduct>>(
-        "/products",
+        "/inventory/products",
         productToAdd
       );
 
@@ -52,7 +52,7 @@ const useProductStore = defineStore("product-store", () => {
     isLoading.value = true;
     try {
       const { data } = await sistemApi.put<IApiResponse<IProduct>>(
-        "/products",
+        "/inventory/products",
         productToUpdate
       );
 

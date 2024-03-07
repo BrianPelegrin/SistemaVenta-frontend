@@ -54,26 +54,6 @@
                 />
               </v-col>
               <v-col cols="12" sm="12" md="4" lg="4">
-                <v-text-field
-                  label="Fecha de Vencimiento"
-                  placeholder="Digite la Fecha de Vencimiento..."
-                  hide-details
-                  variant="outlined"
-                />
-              </v-col>
-              <!--  -->
-              <v-col cols="12" sm="12" md="4" lg="4">
-                <v-select
-                  :items="categoryList"
-                  item-title="name"
-                  item-value="id"
-                  label="Proveedor del Producto"
-                  placeholder="Seleccione el proveedor del producto..."
-                  hide-details
-                  variant="outlined"
-                />
-              </v-col>
-              <v-col cols="12" sm="12" md="4" lg="4">
                 <v-select
                   :items="categoryList"
                   item-title="name"
@@ -84,23 +64,13 @@
                   variant="outlined"
                 />
               </v-col>
-              <v-col cols="12" sm="12" md="4" lg="4">
-                <v-select
-                  :items="categoryList"
-                  item-title="name"
-                  item-value="id"
-                  label="Almacen del Producto"
-                  placeholder="Seleccione el Almacen donde se encuentra el producto..."
-                  hide-details
-                  variant="outlined"
-                />
-              </v-col>
               <v-col cols="12" md="12" lg="12" sm="12">
                 <v-textarea
                   label="Descripcion del Producto"
                   placeholder="Digite la descripcion del producto..."
                   hide-details
                   variant="outlined"
+                  rows="7"
                 />
               </v-col>
             </v-row>
@@ -153,17 +123,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { TheFieldset } from "@/components";
 import { useCategoryStore } from "@/modules/inventory/stores";
-
+import { useRequestService } from "@/composables";
+import { ICategory } from "@/modules/inventory/interfaces";
 const categoryStore = useCategoryStore();
-
+const categoryService = useRequestService<ICategory>("/inventory/categories");
+const categories = ref<ICategory[]>([]);
 //COMPUTEDS
-const categoryList = computed(() => categoryStore.categories);
+const categoryList = computed(() => categoryService.requestData.list);
 
 onMounted(async () => {
-  await categoryStore.getCategories();
+  categories.value = await categoryService.getList();
 });
 </script>
 
