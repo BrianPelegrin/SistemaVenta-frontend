@@ -4,9 +4,19 @@ interface IModule {
   path: string;
   childs?: IModule[];
 }
+
+interface IBaseModel {
+  id: number;
+  stateId: number;
+  createdBy?: string;
+  updatedBy?: string;
+  updatedAt?: Date;
+  createdAt?: Date;
+}
+
 interface IApiResponse<TData> {
   message: string;
   data: TData;
 }
 
-export type { IModule, IApiResponse };
+export type { IModule, IApiResponse, IBaseModel };
