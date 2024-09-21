@@ -5,8 +5,7 @@
       <v-row>
         <v-col cols="12" md="6" sm="6" lg="6">
           <v-text-field
-            @update:model-value="(value) => $emit('update:name', value)"
-            :model-value="name"
+            v-model="modelValue.name"
             :loading="isLoading"
             :disabled="isLoading || disabled"
             label="Nombre del proveedor"
@@ -15,8 +14,7 @@
         </v-col>
         <v-col cols="12" md="6" sm="6" lg="6">
           <v-select
-            @update:model-value="(value) => $emit('update:stateId', value)"
-            :model-value="stateId"
+            v-model="modelValue.stateId"
             :items="stateList"
             :loading="isLoading"
             :disabled="isLoading || disabled"
@@ -27,8 +25,7 @@
         </v-col>
         <v-col cols="12" md="6" sm="6" lg="6">
           <v-text-field
-            @update:model-value="(value) => $emit('update:email', value)"
-            :model-value="email"
+            v-model="modelValue.email"
             :loading="isLoading"
             :disabled="isLoading || disabled"
             label="Correo Electronico"
@@ -37,8 +34,7 @@
         </v-col>
         <v-col cols="12" md="6" sm="6" lg="6">
           <v-text-field
-            @update:model-value="(value) => $emit('update:phoneNumber', value)"
-            :model-value="phoneNumber"
+            v-model="modelValue.phoneNumber"
             :loading="isLoading"
             :disabled="isLoading || disabled"
             label="Numero de Telefono"
@@ -53,7 +49,7 @@
       <v-btn
         :loading="isLoading"
         :disabled="isLoading || disabled"
-        :text="!id ? 'Guardar' : 'Actualizar'"
+        :text="!modelValue.id ? 'Guardar' : 'Actualizar'"
         class="bg-primary"
         append-icon="mdi mdi-floppy"
         @click="$emit('on-submit')"
@@ -64,21 +60,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { IState } from "@/modules/inventory/interfaces/index";
+import type { IState, ISupplier } from "@/modules/inventory/interfaces/index";
 interface IProps {
   isLoading?: boolean;
   disabled?: boolean;
-  id: number;
-  name: string;
-  phoneNumber: string;
-  email: string;
-  stateId: number;
+  modelValue:ISupplier
 }
 interface IEmits {
-  (event: "update:name", args?: string): void;
-  (event: "update:phoneNumber", args?: string): void;
-  (event: "update:email", args?: string): void;
-  (event: "update:stateId", args?: number): void;
+  (event: "update:modelValue", args?: string): void;
   (event: "on-submit"): void;
   (event: "on-cancel"): void;
 }
@@ -88,10 +77,12 @@ const stateList = ref<IState[]>([
   {
     id: 1,
     name: "Activo",
+    stateId: 1,
   },
   {
     id: 2,
     name: "Inactivo",
+    stateId: 1,
   },
 ]);
 </script>

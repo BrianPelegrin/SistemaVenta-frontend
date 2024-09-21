@@ -54,6 +54,11 @@ const navModules = ref<IModule[]>([
     icon: "mdi mdi-cube",
     childs: [
       {
+        label: "Lotes",
+        path: "/inventory/lots",
+        icon: "mdi mdi-food-takeout-box-outline",
+      },
+      {
         label: "Productos",
         path: "/inventory/products",
         icon: "mdi mdi-package-variant-closed",

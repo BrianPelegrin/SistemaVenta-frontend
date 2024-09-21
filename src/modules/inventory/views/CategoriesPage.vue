@@ -3,15 +3,15 @@
     <v-card class="mt-3">
       <v-toolbar title="Categorias" class="bg-primary">
         <v-btn
-          :loading="categoryStore.isLoading"
-          @click="async () => await categoryStore.getCategories()"
+          :loading="categoryServices.requestData.isLoading"
+          @click="async () => await categoryServices.getList()"
           icon="mdi mdi-reload"
           variant="tonal"
           class="mx-2"
         />
         <v-btn
           @click="isModalOpen = true"
-          :disabled="categoryStore.isLoading"
+          :disabled="categoryServices.requestData.isLoading"
           elevated
           class="bg-success"
           append-icon="mdi mdi-plus"
@@ -20,7 +20,7 @@
         </v-btn>
       </v-toolbar>
       <v-data-table
-        :loading="categoryStore.isLoading"
+        :loading="categoryServices.requestData.isLoading"
         :headers="headers"
         :items="categoriesList"
         :border="true"
@@ -46,28 +46,26 @@
     <CategoryForm
       @on-submit="saveCategory"
       @on-cancel="closeModal"
-      v-model:name="currentCategory.name"
-      v-model:state-id="currentCategory.stateId"
-      :loading="categoryStore.isLoading"
-      :id="currentCategory.id"
+      v-model="currentCategory"
+      :loading="categoryServices.requestData.isLoading"
     />
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
-import { useCategoryStore } from "@/modules/inventory/stores";
+import { ref, onMounted, computed, reactive } from "vue";
+import { useRequestService } from "@/composables"
 import CategoryForm from "@/modules/inventory/components/forms/CategoryForm.vue";
 import { ICategory } from "../interfaces";
 const isModalOpen = ref<boolean>(false);
-const categoryStore = useCategoryStore();
-const categoriesList = computed<ICategory[]>(() => categoryStore.categories);
+const categoryServices = useRequestService<ICategory>("/api/inventory/categories");
+const categoriesList = computed<ICategory[]>(() => categoryServices.requestData.list);
 const headers: any[] = [
   { title: "Nombre", align: "start", key: "name" },
   { title: "Estado", align: "start", key: "stateId" },
   { title: "Acciones", align: "start", key: "id" },
 ];
-const currentCategory = ref<ICategory>({
+const currentCategory = reactive<ICategory>({
   id: 0,
   name: "",
   stateId: 1,
@@ -75,33 +73,25 @@ const currentCategory = ref<ICategory>({
 
 const closeModal = () => {
   isModalOpen.value = false;
-  currentCategory.value = {
-    id: 0,
-    name: "",
-    stateId: 1,
-  };
+  currentCategory.id =  0
+  currentCategory.name = ""
+  currentCategory.stateId =  1
 };
 
 const editCategory = (category: ICategory) => {
   console.log(category);
 
   isModalOpen.value = true;
-  Object.entries(category).forEach(
-    ([key, val]) => ((currentCategory.value as any)[key] = val)
-  );
+  Object.assign(currentCategory, {...category})
 };
 const saveCategory = async () => {
-  if (currentCategory.value.id != 0) {
-    await categoryStore.updateCategory(currentCategory.value);
-  } else {
-    await categoryStore.postCategory(currentCategory.value);
-  }
-  await categoryStore.getCategories();
+  await categoryServices.saveRecord(currentCategory);
+  await categoryServices.getList();
   closeModal();
 };
 
 onMounted(async () => {
-  await categoryStore.getCategories();
+  await categoryServices.getList();
 });
 </script>
 

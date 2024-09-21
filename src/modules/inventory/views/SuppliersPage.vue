@@ -3,8 +3,8 @@
     <v-card>
       <v-toolbar title="Proveedores" class="bg-primary">
         <v-btn
-          @click="async () => await supplierStore.getSuppliers()"
-          :loading="supplierStore.isLoading"
+          @click="async () => await supplierService.getList()"
+          :loading="supplierService.requestData.isLoading"
           class="bg-primary mx-2"
           icon="mdi mdi-reload"
           variant="tonal"
@@ -15,14 +15,14 @@
               name: 'suppliers-form-add',
             })
           "
-          :disabled="supplierStore.isLoading"
+          :disabled="supplierService.requestData.isLoading"
           class="bg-success"
           append-icon="mdi mdi-plus"
           text="Registrar Proveedor"
         />
       </v-toolbar>
       <v-data-table
-        :loading="supplierStore.isLoading"
+        :loading="supplierService.requestData.isLoading"
         :items="suppliersList"
         :headers="tableHeaders"
       >
@@ -52,10 +52,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { useSupplierStore } from "@/modules/inventory/stores";
+import { useRequestService } from "@/composables";
 import { ISupplier } from "@/modules/inventory/interfaces";
-const supplierStore = useSupplierStore();
-const suppliersList = computed<ISupplier[]>(() => supplierStore.suppliers);
+const supplierService = useRequestService<ISupplier>("/api/inventory/suppliers");
+const suppliersList = computed<ISupplier[]>(() => supplierService.requestData.list);
 const tableHeaders: any[] = [
   { title: "Nombre", align: "start", key: "name" },
   { title: "Telefono", align: "start", key: "phoneNumber" },
@@ -64,7 +64,7 @@ const tableHeaders: any[] = [
   { title: "Acciones", align: "start", key: "id" },
 ];
 onMounted(async () => {
-  await supplierStore.getSuppliers();
+  await supplierService.getList();
 });
 </script>
 

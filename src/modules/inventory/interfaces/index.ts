@@ -29,13 +29,24 @@ interface ICategory extends IBaseModel {
   products?: IProduct[];
   isActive?: boolean;
 }
+interface ILot extends IBaseModel{
+  id: number;
+  name: string;
+  stateId: number;
+  products?: IProduct;
+  isActive?: boolean
+}
+
 interface ISupplier extends IBaseModel {
   email: string;
   phoneNumber: string;
   products?: IProduct[];
+  isActive: boolean;
+  name: string;
 }
+
 interface IState extends IBaseModel {
   name: string;
 }
 
-export type { ICategory, IState, ISupplier, IProduct };
+export type { ICategory, IState, ISupplier, IProduct, ILot };

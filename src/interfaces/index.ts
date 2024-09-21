@@ -7,7 +7,7 @@ interface IModule {
 
 interface IBaseModel {
   id: number;
-  stateId?: number;
+  stateId: number;
   createdBy?: string;
   updatedBy?: string;
   updatedAt?: Date;

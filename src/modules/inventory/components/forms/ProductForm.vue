@@ -214,7 +214,7 @@ const unitsMeasurements = [
   },
 ];
 
-const onSetImage = (event: any) => {
+const onSetImage = () => {
   if (!imageInput.value || !imageInput.value.files) return;
 
   const [image]: File[] = imageInput.value.files as any;

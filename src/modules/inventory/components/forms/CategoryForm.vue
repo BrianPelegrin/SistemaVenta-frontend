@@ -6,8 +6,7 @@
         <v-row>
           <v-col cols="12" lg="6" md="6" sm="12">
             <v-text-field
-              @update:model-value="(event) => $emit('update:name', event)"
-              :model-value="name"
+              v-model="modelValue.name"
               :loading="loading"
               :disabled="disabled || loading"
               autofocus
@@ -18,8 +17,7 @@
           </v-col>
           <v-col cols="12" lg="6" md="6" sm="12">
             <v-select
-              @update:model-value="(value) => $emit('update:stateId', value)"
-              :model-value="stateId"
+              v-model="modelValue.stateId"
               :loading="loading"
               :disabled="disabled || loading"
               :items="stateList"
@@ -35,10 +33,10 @@
       <v-card-actions class="bg-default">
         <v-btn @click="$emit('on-cancel')" text="Cancelar" variant="tonal" />
         <v-btn
-          @click="$emit('on-submit', category)"
+          @click="$emit('on-submit', modelValue)"
           :loading="loading"
           :disabled="disabled || loading"
-          :text="id == 0 ? 'Guardar' : 'Actualizar'"
+          :text="modelValue.id == 0 ? 'Guardar' : 'Actualizar'"
           class="bg-primary"
         />
       </v-card-actions>
@@ -50,16 +48,12 @@
 import { ref } from "vue";
 import type { ICategory, IState } from "@/modules/inventory/interfaces/index";
 interface IProps {
-  category?: ICategory;
+  modelValue: ICategory;  
   disabled?: boolean;
   loading?: boolean;
-  name: string;
-  stateId: number;
-  id?: number;
 }
 interface IEmits {
-  (event: "update:name", args: string): void;
-  (event: "update:stateId", args: number): void;
+  (event: "update:modelValue", args: string): void;
   (event: "on-submit", args?: ICategory): void;
   (event: "on-cancel"): void;
 }
@@ -70,10 +64,12 @@ const stateList = ref<IState[]>([
   {
     id: 1,
     name: "Activo",
+    stateId: 1,
   },
   {
     id: 2,
     name: "Inactivo",
+    stateId: 1,
   },
 ]);
 
