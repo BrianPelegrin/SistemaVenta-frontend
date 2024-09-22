@@ -2,10 +2,11 @@
   <div class="pa-5">
     <v-toolbar class="bg-primary mb-4 rounded" title="Formulario de Productos">
       <v-btn
-        :text="`${product.id ? 'Actualizar' : 'Guardar'} Producto`"
+        :text="`${modelValue.id ? 'Actualizar' : 'Guardar'} Producto`"
         color="white"
         class="bg-success"
         append-icon="mdi mdi-floppy"
+        @click="$emit('on-submit')"
       />
     </v-toolbar>
 
@@ -16,7 +17,7 @@
             <v-row>
               <v-col cols="12" md="8" lg="8" sm="12">
                 <v-text-field
-                  v-model="product.name"
+                  v-model="modelValue.name"
                   :loading="isLoading"
                   :disabled="disabled || isLoading"
                   label="Nombre del Producto"
@@ -27,7 +28,7 @@
               </v-col>
               <v-col cols="12" md="4" lg="4" sm="12">
                 <v-select
-                  v-model="product.categoryId"
+                  v-model="modelValue.categoryId"
                   :items="categoryList"
                   :loading="categoryService.requestData.isLoading"
                   :disabled="categoryService.requestData.isLoading || disabled"
@@ -41,7 +42,7 @@
               </v-col>
               <v-col cols="12" md="12" lg="12" sm="12">
                 <v-text-field
-                  v-model="product.barCode"
+                  v-model="modelValue.barCode"
                   :loading="isLoading"
                   :disabled="disabled || isLoading"
                   label="Codigo de barra del Producto"
@@ -52,7 +53,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" lg="4">
                 <v-text-field
-                  v-model.number="product.stock"
+                  v-model.number="modelValue.stock"
                   :loading="isLoading"
                   :disabled="disabled || isLoading"
                   label="Cantidad en almacen"
@@ -63,7 +64,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" lg="4">
                 <v-text-field
-                  v-model.number="product.minimalStock"
+                  v-model.number="modelValue.minimalStock"
                   :loading="isLoading"
                   :disabled="disabled || isLoading"
                   label="Cantidad minima en almacen"
@@ -74,7 +75,7 @@
               </v-col>
               <v-col cols="12" sm="12" md="4" lg="4">
                 <v-select
-                  v-model="product.unitMeasurementId"
+                  v-model="modelValue.unitMeasurementId"
                   :disabled="disabled || isLoading"
                   :items="unitsMeasurements"
                   item-title="name"
@@ -87,7 +88,7 @@
               </v-col>
               <v-col cols="12" md="12" lg="12" sm="12">
                 <v-textarea
-                  v-model="product.description"
+                  v-model="modelValue.description"
                   :disabled="disabled || isLoading"
                   label="Descripcion del Producto"
                   placeholder="Digite la descripcion del producto..."
@@ -104,10 +105,10 @@
         <TheFieldset title="Foto del Producto" class="mb-4">
           <!-- <v-toolbar class="bg-primary" title="Foto del Producto" /> -->
           <div class="w-100">
-            <div v-if="product.image">
+            <div v-if="modelValue.image">
               <img
-                :src="product.image"
-                :alt="product.name.replace('', '-') + '.jpg'"
+                :src="modelValue.image"
+                :alt="modelValue.name.replace('', '-') + '.jpg'"
                 width="205"
                 class="img-fluid d-block mx-auto"
               />
@@ -146,7 +147,7 @@
                   placeholder="Digite el precio de compra..."
                   hide-details
                   variant="outlined"
-                  v-model="product.pucharsePrice"
+                  v-model="modelValue.purchasePrice"
                 />
               </v-col>
               <v-col cols="12" sm="12" md="12" lg="12">
@@ -157,7 +158,7 @@
                   placeholder="Digite el precio de venta..."
                   hide-details
                   variant="outlined"
-                  v-model="product.salePrice"
+                  v-model="modelValue.salePrice"
                 />
               </v-col>
             </v-row>
@@ -170,7 +171,7 @@
       <v-btn
         :loading="isLoading"
         :disabled="isLoading || disabled"
-        :text="!product.id ? 'Guardar' : 'Actualizar'"
+        :text="!modelValue.id ? 'Guardar' : 'Actualizar'"
         class="bg-primary"
         append-icon="mdi mdi-floppy"
         @click="$emit('on-submit')"
@@ -185,21 +186,20 @@ import { TheFieldset } from "@/components";
 import { useRequestService } from "@/composables";
 import { ICategory, IProduct } from "@/modules/inventory/interfaces";
 interface IProps {
-  product: IProduct;
+  modelValue: IProduct;
   disabled?: boolean;
   isLoading?: boolean;
 }
 interface IEmits {
   (event: "on-submit"): void;
   (event: "on-cancel"): void;
-  (event: "update:product"): void;
+  (event: "update:modelValue"): void;
 }
 
 const props = defineProps<IProps>();
 defineEmits<IEmits>();
 
-const categoryService = useRequestService<ICategory>("/inventory/categories");
-const categories = ref<ICategory[]>([]);
+const categoryService = useRequestService<ICategory>("/api/inventory/categories");
 const imageInput = ref<HTMLInputElement>();
 //COMPUTEDS
 const categoryList = computed(() => categoryService.requestData.list);
@@ -221,14 +221,14 @@ const onSetImage = () => {
 
   const fileReader = new FileReader();
   fileReader.onload = () => {
-    props.product.image = fileReader.result as string;
+    props.modelValue.image = fileReader.result as string;
   };
 
   fileReader.readAsDataURL(image);
 };
 
 onMounted(async () => {
-  categories.value = await categoryService.getList();
+  await categoryService.getList();
 });
 </script>
 

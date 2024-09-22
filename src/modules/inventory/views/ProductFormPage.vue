@@ -1,5 +1,5 @@
 <template>
-  <ProductForm @submit="onSave" v-model:product="product" />
+  <ProductForm @on-submit="onSave" v-model="product" />
 </template>
 
 <script setup lang="ts">
@@ -10,7 +10,7 @@ import { IProduct } from "@/modules/inventory/interfaces";
 import { useRequestService } from "@/composables";
 
 const route = useRoute();
-const productService = useRequestService<IProduct>("/inventory/products");
+const productService = useRequestService<IProduct>("/api/inventory/products");
 
 const productId = computed<number>(
   () => parseInt(route.params.id as string) ?? 0
@@ -25,13 +25,14 @@ const product = reactive<IProduct>({
   image: "",
   minimalStock: null,
   categoryId: null,
-  pucharsePrice: null,
+  purchasePrice: null,
   salePrice: null,
   stateId: 1,
   unitMeasurementId: null,
 });
 
 const onSave = async () => {
+  console.log('Se mando a guardar el producto: ', product)
   await productService.saveRecord(product);
 };
 

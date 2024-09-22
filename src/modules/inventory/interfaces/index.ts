@@ -6,7 +6,7 @@ interface IProduct extends IBaseModel {
   description: string;
   barCode: string;
   salePrice: number | null;
-  pucharsePrice: number | null;
+  purchasePrice: number | null;
   stock: number | null;
   minimalStock: number | null;
   image: string;
@@ -31,11 +31,26 @@ interface ICategory extends IBaseModel {
 }
 interface ILot extends IBaseModel{
   id: number;
-  name: string;
-  stateId: number;
-  products?: IProduct;
-  isActive?: boolean
+  lotNumber: string;
+  expirationDate:string;
+  productionDate:string;
+  quantity:number | null;
+  productId:number | null;
+  supplierId:number | null;
+  cost:number;
+  product?: IProduct;
 }
+
+/*
+      ,[LotNumber]
+      ,[ExpirationDate]
+      ,[ProductionDate]
+      ,[Quantity]
+      ,[Cost]
+      ,[StorageId]
+      ,[ProductId]
+      ,[SupplierId]
+*/
 
 interface ISupplier extends IBaseModel {
   email: string;

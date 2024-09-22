@@ -3,8 +3,8 @@
     <v-card>
       <v-toolbar title="Productos" class="bg-primary">
         <v-btn
-          :loading="isLoading"
-          @click="async () => await productStore.getProducts()"
+          :loading="productService.requestData.isLoading"
+          @click="async () => await productService.getList()"
           icon="mdi mdi-reload"
           class="mx-2"
         />
@@ -16,7 +16,7 @@
         />
       </v-toolbar>
       <v-data-table
-        :loading="isLoading"
+        :loading="productService.requestData.isLoading"
         :headers="tableHeaders"
         :items="productList"
       >
@@ -45,29 +45,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useProductStore } from "@/modules/inventory/stores";
+import { ref, onMounted, computed } from "vue";
 import { IProduct } from "@/modules/inventory/interfaces";
-import { ProductService } from "@/modules/inventory/services";
-const productStore = useProductStore();
-const isLoading = ref<boolean>(false);
-const productList = ref<IProduct[]>([]);
+import { useRequestService } from "@/composables";
+const productService = useRequestService<IProduct>("/api/inventory/products");
+const productList = computed<IProduct[]>(()=>productService.requestData.list);
 const tableHeaders: any[] = [
   { title: "Nombre", align: "start", key: "name" },
   { title: "Categoria", align: "start", key: "category.name" },
   { title: "Precio de Venta", align: "start", key: "salePrice" },
-  { title: "Precio de Compra", align: "start", key: "pucharsePrice" },
+  { title: "Precio de Compra", align: "start", key: "purchasePrice" },
   { title: "Cantidad Disponible", align: "start", key: "stock" },
   { title: "Acciones", align: "start", key: "id" },
 ];
 
 onMounted(async () => {
-  isLoading.value = true;
-  const data = await ProductService.getProducts();
-  if (data) {
-    productList.value = data;
-  }
-  isLoading.value = false;
+   await productService.getList();
 });
 </script>
 

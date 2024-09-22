@@ -12,6 +12,7 @@ interface IBaseModel {
   updatedBy?: string;
   updatedAt?: Date;
   createdAt?: Date;
+  isActive?: boolean;
 }
 
 interface IApiResponse<TData> {
